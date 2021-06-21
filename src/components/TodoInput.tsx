@@ -5,22 +5,26 @@ import checkIcon from '../assets/icons/Check.png';
 
 interface TodoInputProps {
   addTask: (task: string) => void;
+  dark: boolean;
 }
 
-export function TodoInput({ addTask }: TodoInputProps) {
+export function TodoInput({ addTask, dark }: TodoInputProps) {
   const [task, setTask] = useState('');
 
   function handleAddNewTask() {
     addTask(task);
-    setTask('') 
+    setTask('')
   }
 
   return (
-    <View style={[styles.inputContainer, Platform.OS === 'ios' ? styles.inputIOSShadow : styles.inputAndroidShadow]}>
-      <TextInput 
-        style={styles.input} 
+    <View style={[
+      dark ? styles.inputContainerDark : styles.inputContainer,
+      Platform.OS === 'ios' ? styles.inputIOSShadow : styles.inputAndroidShadow
+    ]}>
+      <TextInput
+        style={dark ? styles.inputDark : styles.input}
         placeholder="Adicionar novo todo..."
-        placeholderTextColor={'#9999'}
+        placeholderTextColor={dark ? '#E1E1E6' : '#9999'}
         returnKeyType="send"
         value={task}
         onChangeText={setTask}
@@ -29,7 +33,7 @@ export function TodoInput({ addTask }: TodoInputProps) {
       <TouchableOpacity
         testID="add-new-task-button"
         activeOpacity={0.7}
-        style={styles.addButton}
+        style={dark ? styles.addButtonDark : styles.addButton}
         onPress={handleAddNewTask}
       >
         <Image source={checkIcon} />
@@ -70,6 +74,32 @@ const styles = StyleSheet.create({
   },
   addButton: {
     backgroundColor: '#3FAD27',
+    height: 50,
+    paddingHorizontal: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+  },
+  inputContainerDark: {
+    backgroundColor: '#303030',
+    borderRadius: 5,
+    marginTop: -25,
+    marginHorizontal: 40,
+    height: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  inputDark: {
+    flex: 1,
+    backgroundColor: '#303030',
+    paddingLeft: 12,
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5,
+    color: '#FFF',
+  },
+  addButtonDark: {
+    backgroundColor: '#181818',
     height: 50,
     paddingHorizontal: 16,
     justifyContent: 'center',
